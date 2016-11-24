@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Dynamic Properties</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.2/css/selectize.bootstrap3.css">
+
+	<link rel="stylesheet" href="./css/font-awesome.css">
+</head>
+	
+<body>
+	<div class="container">
+
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Values</th>
+						<th>Required</th>
+						<th>Type</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="option in options">
+						<td><input type="text" name="variants[color][name]" class="form-control" v-model="option.name" @keyup="disabledInput"></td>
+						<td><input type="text" name="variants[color][values]" class="form-control" id="selectize-{{ $index }}" 
+							v-bind:value="getFormatedValues(option.values)" @focus="disabledInput"> {{ option.name }}</td>
+						<td><input type="checkbox" name="variants[color][required]" v-model="option.required"></td>
+						<td>
+							<select name="variants[color][type]" class="form-control" v-model="option.type">
+								<option v-for="type in optionTypes" v-bind:value="type.value">{{ type.text }}</option>
+ 							</select>
+						</td>
+						<td><button class="btn btn-danger" @click.prevent="deleteOption(option)"><i class="fa fa-trash"></i></button></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="5"><button class="btn btn-primary" @click.prevent="addNewOption"><i class="fa fa-plus"></i> Add Field</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+		<div v-for="option in options" v-show="option.values.length > 0">
+			<h4> {{ option.name }} Price</h4>
+
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Option</th>
+							<th>Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="values in option.values" v-show="options.length">
+							<td>{{ values.name }}</td>
+							<td><input type="text" name="variants[color][data][Green][price]" class="form-control" v-model="values.price"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.9.3/vue-resource.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.2/js/standalone/selectize.js"></script>
+
+	<script src="js/main.js"></script>
+
+</body>
+</html>
